@@ -1,0 +1,53 @@
+Functional Requirements Document (FRD)
+Scope
+This document outlines the basic functional requirements for the Admin Login and Booking functionality of https://automationintesting.online, to be used for UI test automation.
+
+1. Admin Login
+
+Feature: Admin Login
+
+Description:
+Admin users should be able to log in via the admin page.
+
+Functional Requirements:
+The login page should have fields for username and password.
+On entering valid credentials, the admin dashboard should be displayed.
+On entering invalid credentials, an error message should be shown.
+
+Acceptance Criteria:
+Admin can log in with valid credentials (admin / password).
+Admin is blocked with incorrect credentials.
+The session should persist only while the browser is active.
+
+2. Booking Creation
+
+Feature: Create a Booking
+
+Description:
+A guest can make a room booking via UI
+
+Functional Requirements:
+The created booking should appear on the UI calendar in the admin dashboard.
+
+Acceptance Criteria:
+Booking appears in the dashboard UI for the correct room and date.
+
+3. View Bookings
+
+Feature: View Booking on Calendar
+
+Description:
+Admin should be able to view all created bookings visually on the calendar.
+
+Functional Requirements:
+Bookings appear as blocks on the calendar on the admin dashboard.
+Block should reflect the name and duration of booking.
+Refreshing the page should retain the bookings.
+
+Acceptance Criteria:
+Booking appears in the correct date slot after creation.
+
+4. Technical Notes
+Login and dashboard functionality is tested using Playwright (UI).
+.env will store credentials and base URLs securely.
+Integration with MCP/AI agent to auto-generate test cases and scripts.

@@ -1,0 +1,79 @@
+Overview
+The Restful‑Booker API is a publicly available sandbox for practicing API testing. It supports CRUD operations on bookings and allows authenticated actions using tokens. It resets its data every 10 minutes.
+
+Base URL: https://restful-booker.herokuapp.com
+
+Authentication: Uses a token obtained from /auth endpoint.
+
+Booking endpoints: /booking, with full Create / Read / Update / Delete capability.
+
+1. Scenario: Generate Authentication Token
+Endpoint: POST /auth
+Full URL: https://restful-booker.herokuapp.com/auth
+
+Headers:
+Content-Type: application/json
+Accept: application/json
+Request Payload (JSON):
+{
+  "username": "admin",
+  "password": "password123"
+}
+
+Functional Requirements:
+Valid credentials should result in successful token generation.
+The response must include a JSON object containing a "token" field.
+Requests with invalid credentials should return status 200 but may include an error payload or no "token" field.
+
+Expected Behavior:
+
+Success case: HTTP 200 OK and JSON body like:
+{ "token": "<string value>" }
+Failure case: Missing or empty "token" field; tester must validate error or absence of token.
+
+2. Scenario: Create Booking with Token
+Endpoint: POST /booking
+Full URL: https://restful-booker.herokuapp.com/booking
+
+Headers:
+Content-Type: application/json
+Accept: application/json
+Cookie: token=<token string from /auth response>
+(Alternatively, the token may be passed in header or cookie depending on implementation.)
+
+Request Payload (JSON):
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "totalprice": 150,
+  "depositpaid": true,
+  "bookingdates": {
+    "checkin": "2025-08-10",
+    "checkout": "2025-08-15"
+  },
+  "additionalneeds": "Breakfast"
+}
+
+Functional Requirements:
+Valid token must be provided in the request header or Cookie to authorize booking creation.
+Booking details must be included appropriately in the JSON payload.
+On success, the response should return a bookingid integer and echo back booking details in the response JSON.
+
+Expected Behavior:
+
+Success case: HTTP 200 OK or 201 Created with a response like:
+{
+  "bookingid": 399,
+  "booking": {
+    "firstname": "John",
+    "lastname": "Doe",
+    "totalprice": 150,
+    "depositpaid": true,
+    "bookingdates": {
+      "checkin": "2025-08-10",
+      "checkout": "2025-08-15"
+    },
+    "additionalneeds": "Breakfast"
+  }
+}
+Failure case: Missing or invalid token should return HTTP 403 Forbidden or HTTP 401 Unauthorized or return an error message in the JSON (depending on implementation quirks).

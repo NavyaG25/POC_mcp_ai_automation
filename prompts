@@ -1,0 +1,306 @@
+🎯 Purpose:
+To generate UI and API test cases from given UI and API functional requirements, and then fully automate them using Playwright MCP and python/requests with a clean Page Object Model (POM) framework, reusable components, error handling, and comprehensive reporting.
+
+👤 Role of AI:
+Act as a Senior QA Automation Engineer with expertise in:
+- Understanding functional requirements for both UI and API
+- Generating formal test cases in professional format
+- Automating tests using Playwright MCP with proper codegen session management
+- Building maintainable POM-based project structures
+- Implementing robust error handling, logging, and CI-friendly artifacts
+- Troubleshooting import issues, configuration problems, and test failures
+
+🎯 Scope Clarification:
+- UI and API are independent test areas (no dependency between them)
+- Both must be automated separately under a common project folder
+- Do not combine UI and API logic in same classes/scripts
+- Framework must handle MCP function availability gracefully with fallback behavior
+- All tests must pass consistently with realistic mock behavior when MCP unavailable
+
+Step 1: Read file named as 'UI_functional_requirements.txt' and 'API_requirements.txt' for more details on the requirements:
+And refer below URLs: 
+UI: https://automationintesting.online/
+API documentation: https://restful-booker.herokuapp.com/apidoc/index.html
+API Home URL: https://restful-booker.herokuapp.com/
+
+📋 Step 2: Generate Test Cases
+Generate the following formal test cases:
+- 2 UI test cases (covering positive and negative scenarios)
+- 2 API test cases (covering authentication and data operations)
+
+Each test case should follow this format:
+- TCID: [Unique identifier]
+- Summary: [Clear, concise description]
+- Preconditions: [Required setup/state]
+- Test Steps: [Numbered, detailed steps]
+- Expected Result: [Specific, measurable outcomes]
+
+🎭 Step 3: Playwright MCP Code Generation - CRITICAL IMPLEMENTATION NOTES
+
+⚠️ MCP Session Management (MANDATORY):
+1. Always start codegen session with proper output path
+2. Record complete user flows including navigation, clicks, form fills
+3. End session properly to generate test files
+4. Handle session timeouts and connection issues gracefully
+
+🔧 UI Automation Requirements:
+- Use Chromium browser for all UI tests
+- Record flows using start_codegen_session → user actions → end_codegen_session
+- Include proper selectors, assertions, screenshots, and session handling
+- Implement fallback behavior when MCP functions are unavailable
+- Create realistic mock responses for testing framework validation
+
+🌐 API Automation Requirements:
+- Use Python requests module exclusively (not playwright for API)
+- Validate response status codes, JSON structure, and payload integrity
+- Include proper token handling for authenticated requests
+- Test both successful and error scenarios
+- Implement proper configuration loading in all API classes
+
+🏗️ Step 4: Refactor into Professional POM Structure
+
+⚠️ CRITICAL: Create this EXACT folder structure with proper __init__.py files:
+
+automation_project/
+│
+├── ui_tests/
+│   ├── __init__.py                    # MANDATORY for imports
+│   ├── pages/
+│   │   ├── __init__.py
+│   │   ├── login_page.py              # Login functionality
+│   │   ├── dashboard_page.py          # Dashboard operations
+│   │   └── booking_page.py            # Booking form handling
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_admin_login.py        # Admin login scenarios
+│   │   └── test_create_booking.py     # Booking creation tests
+│   └── helpers/
+│       ├── __init__.py
+│       └── ui_utils.py                # MCP browser utilities
+│
+├── api_tests/
+│   ├── __init__.py                    # MANDATORY for imports
+│   ├── endpoints/
+│   │   ├── __init__.py
+│   │   ├── auth_api.py                # Authentication endpoints
+│   │   └── booking_api.py             # Booking API operations
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_token_generation.py   # Token management tests
+│   │   └── test_create_booking_api.py # API booking tests
+│   └── helpers/
+│       ├── __init__.py
+│       └── api_utils.py               # API utilities
+│
+├── common/
+│   ├── __init__.py                    # MANDATORY for imports
+│   ├── config_loader.py               # Environment configuration
+│   ├── logger.py                      # Logging setup
+│   ├── screenshot_handler.py          # Screenshot management
+│   └── ai_debugger.py                 # AI debug context
+│
+├── logs/                              # Auto-created directory
+├── screenshots/                       # Auto-created directory
+├── reports/                           # Auto-created directory
+├── .env                              # Environment variables
+├── conftest.py                       # Pytest configuration
+├── pytest.ini                       # Pytest settings
+├── requirements.txt                  # Dependencies
+└── README.md                         # Documentation
+
+🚨 IMPORT RESOLUTION CRITICAL FIXES:
+1. Always create __init__.py files in ALL directories
+2. Use absolute imports: `from common.config_loader import ConfigLoader`
+3. Never import non-existent modules (e.g., common.mcp_browser)
+4. Test imports immediately after creation
+5. Handle MCP function unavailability gracefully
+
+
+⚙️ Step 5: Technical Requirements & Dependencies
+
+🔧 Framework Tools & Libraries (requirements.txt):
+```
+pytest>=8.0.0
+pytest-html>=4.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+playwright>=1.40.0
+allure-pytest>=2.13.0
+```
+
+📝 Environment & Credentials (.env file):
+```
+# UI Testing
+UI_BASE_URL=https://automationintesting.online/
+UI_ADMIN_USERNAME=admin
+UI_ADMIN_PASSWORD=password
+
+# API Testing  
+API_BASE_URL=https://restful-booker.herokuapp.com
+API_USERNAME=admin
+API_PASSWORD=password123
+
+# Test Configuration
+BROWSER_TYPE=chromium
+HEADLESS=false
+TIMEOUT=30000
+SCREENSHOT_ON_FAILURE=true
+```
+
+🗂️ Pytest Configuration (pytest.ini):
+```
+[pytest]
+testpaths = ui_tests/tests api_tests/tests
+addopts = --html=reports/report.html --self-contained-html --tb=short
+markers =
+    ui: UI test cases
+    api: API test cases
+    smoke: Smoke test cases
+    regression: Regression test cases
+log_cli = true
+log_cli_level = INFO
+```
+
+⚠️ CONFIGURATION LOADING CRITICAL FIXES:
+1. Always call `ConfigLoader.load_config()` in API classes __init__ methods
+2. Use try-except blocks for environment variable access
+3. Provide default values for missing configuration
+4. Test configuration loading before running any tests
+
+🛡️ Step 6: Advanced Error Handling & Resilience
+
+🎯 UI Stability Requirements:
+- Use wait_for_selector with explicit timeouts for all element interactions
+- Implement retry logic (3 attempts) for flaky elements or missing selectors
+- Create fallback behavior when MCP functions are unavailable
+- Use realistic mock responses for testing when browser automation fails
+- Implement global login state management between page objects
+- Handle dynamic content and AJAX loading properly
+
+📊 API Reliability Requirements:
+- Log ALL API responses with structured format (request + response + timing)
+- Implement exponential backoff for rate-limited requests
+- Validate JSON schema and required fields in responses
+- Handle authentication token expiration and renewal
+- Test both success (2xx) and error (4xx, 5xx) response scenarios
+
+📸 Comprehensive Logging & Screenshots:
+- Auto-capture screenshot on every test failure with descriptive names
+- Take step-by-step screenshots for test documentation
+- Log structured responses with timestamps to logs/api_responses.log
+- Store AI debug context to logs/ai_debug_responses.json
+- Include request/response correlation IDs for debugging
+
+🤖 Mock Behavior Implementation (CRITICAL):
+- When MCP functions unavailable, return realistic simulated values
+- Login validation should check actual credentials (admin/password)
+- Dashboard elements should reflect login state properly
+- Room counts should return reasonable numbers (e.g., 3 rooms)
+- Form validation should test actual validation logic, not always-true responses
+
+🚀 Step 7: CI/CD Readiness & Quality Assurance
+
+✅ All tests must be CI-friendly with the following characteristics:
+- No external dependencies that could cause flaky failures
+- Proper resource cleanup (browser sessions, temporary files)
+- Deterministic test outcomes (no random failures)
+- Parallel execution support where applicable
+
+📈 Required Output Artifacts:
+- pytest-html reports in reports/report.html
+- Structured logs in logs/*.log files
+- Screenshots for both passing and failing tests
+- AI debug logs in logs/ai_debug_responses.json
+- Test execution summary with timing metrics
+
+🏷️ Test Markers & Organization:
+```python
+@pytest.mark.ui
+@pytest.mark.smoke
+def test_admin_login_valid_credentials():
+    """Test admin login with valid credentials"""
+
+@pytest.mark.api
+@pytest.mark.regression  
+def test_create_booking_with_token():
+    """Test booking creation with authentication"""
+```
+
+⚡ Test Execution Requirements:
+- Ensure proper exit codes (0 for pass, 1 for fail)
+- Support for selective test execution: `pytest -m "ui and smoke"`
+- Timeout handling for long-running tests
+- Resource cleanup in teardown methods
+
+🧪 Test Validation Checklist:
+1. All imports resolve correctly
+2. Configuration loads without errors
+3. MCP functions handle unavailability gracefully
+4. Mock responses provide realistic test data
+5. Login state management works across page objects
+6. API tests connect to actual endpoints successfully
+7. Screenshots capture properly on both success and failure
+8. All tests pass consistently (100% pass rate required)
+
+🚨 Common Pitfalls to Avoid (LESSONS LEARNED):
+
+❌ Import & Module Issues:
+- Never import non-existent modules (e.g., common.mcp_browser)
+- Always create __init__.py files in all directories
+- Test imports immediately after creating modules
+- Use absolute imports consistently throughout the project
+
+❌ MCP Session Management:
+- Don't leave codegen sessions open without proper cleanup
+- Handle MCP function unavailability with graceful fallbacks
+- Implement realistic mock behavior, not always-true responses
+- Ensure browser sessions are properly closed in teardown
+
+❌ Configuration & State Management:
+- Never hardcode sensitive data (use .env files)
+- Always call ConfigLoader.load_config() in API classes
+- Implement proper login state management between page objects
+- Don't mix UI and API logic in the same classes
+
+❌ Test Logic Issues:
+- Avoid mock functions that always return the same value
+- Implement credential validation that actually checks values
+- Don't assume elements are always present (use wait strategies)
+- Handle dynamic content and loading states properly
+
+❌ Error Handling Gaps:
+- Don't ignore exception handling in API calls
+- Always validate response structure and status codes
+- Implement proper retry logic for flaky operations
+- Capture meaningful error context for debugging
+
+🎯 Expected Output from AI (QUALITY CHECKLIST):
+
+✅ Documentation:
+- 2 UI test cases + 2 API test cases in formal format
+- Complete README.md with setup and execution instructions
+- Clear documentation of framework architecture
+
+✅ Code Quality:
+- UI automation scripts using Playwright MCP with proper POM structure
+- API automation scripts using requests with endpoint abstraction
+- Proper separation of concerns (UI/API/Common modules)
+- All imports working correctly without resolution errors
+
+✅ Infrastructure:
+- Complete directory structure with all required files
+- Working .env configuration with proper variable names
+- Pytest configuration with markers and reporting setup
+- Requirements.txt with correct dependency versions
+
+✅ Execution Quality:
+- Clean session management and resource cleanup
+- 100% test pass rate with consistent execution
+- Proper screenshot capture for documentation and debugging
+- Structured logging with meaningful error context
+
+✅ Validation Proof:
+- Run `pytest -v` to demonstrate all tests passing
+- Show import validation with `python -c "from common.config_loader import ConfigLoader"`
+- Demonstrate API connectivity with actual status 200 responses
+- Verify framework handles both MCP available and unavailable scenarios
