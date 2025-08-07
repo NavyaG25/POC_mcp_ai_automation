@@ -70,7 +70,7 @@ playwright install
 Create or verify the `.env` file with your test environment settings:
 
 ## Prompts Reference
-The file `prompts/prompts.txt` contains reusable prompts and instructions for automated test scenarios and framework usage. Refer to this file for examples and guidance on writing new test cases or customizing automation flows.
+The file `prompts.txt` contains reusable prompts and instructions for automated test scenarios and framework usage. Refer to this file for examples and guidance on writing new test cases or customizing automation flows.
 
 ```env
 # UI Testing
