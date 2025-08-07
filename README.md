@@ -2,7 +2,7 @@
 
 A comprehensive UI and API test automation framework built with Python, Playwright MCP, and pytest. This framework provides robust testing capabilities for web applications with proper error handling, logging, and reporting.
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 automation_project/
@@ -44,7 +44,7 @@ automation_project/
 └── README.md                      # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 
@@ -68,6 +68,9 @@ playwright install
 ### 3. Configuration
 
 Create or verify the `.env` file with your test environment settings:
+
+## Prompts Reference
+The file `prompts/prompts.txt` contains reusable prompts and instructions for automated test scenarios and framework usage. Refer to this file for examples and guidance on writing new test cases or customizing automation flows.
 
 ```env
 # UI Testing
@@ -106,7 +109,7 @@ pytest -m smoke -v
 pytest --html=reports/report.html --self-contained-html
 ```
 
-## 🎯 Test Cases Covered
+## Test Cases Covered
 
 ### UI Test Cases
 - **UI_TC_001**: Admin login with valid credentials
@@ -117,29 +120,15 @@ pytest --html=reports/report.html --self-contained-html
 - **API_TC_001**: Generate authentication token with valid credentials
 - **API_TC_002**: Create booking with authentication token
 
-## 🔧 Framework Features
+## Framework Features
 
 ### UI Automation Features
-- **MCP Integration**: Uses Playwright MCP for browser automation
-- **Fallback Behavior**: Graceful handling when MCP functions are unavailable
-- **Page Object Model**: Clean separation of test logic and page elements
-- **Screenshot Capture**: Automatic screenshots on failures and key steps
-- **State Management**: Proper login state tracking across page objects
 
 ### API Automation Features
-- **Robust HTTP Client**: Built-in retry logic and error handling
-- **Authentication Management**: Token generation and validation
-- **Response Validation**: Structured validation of API responses
-- **Data Validation**: Comprehensive request/response data validation
 
 ### Common Features
-- **Comprehensive Logging**: Structured logging with multiple output formats
-- **Configuration Management**: Environment-based configuration loading
-- **Error Handling**: Detailed error context capture for debugging
-- **AI Debug Context**: Captures context for AI-assisted debugging
-- **CI/CD Ready**: Proper exit codes and artifact generation
 
-## 📊 Reporting and Logging
+## Reporting and Logging
 
 ### Log Files
 - `logs/automation_YYYYMMDD.log` - Main application logs
@@ -156,7 +145,7 @@ pytest --html=reports/report.html --self-contained-html
 pytest --html=reports/report.html --self-contained-html
 ```
 
-## 🛠️ Development Guidelines
+## Development Guidelines
 
 ### Adding New UI Tests
 1. Create page objects in `ui_tests/pages/`
@@ -175,7 +164,7 @@ pytest --html=reports/report.html --self-contained-html
 - Update `common/config_loader.py` for new configuration options
 - Ensure default values are provided for all configuration keys
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -193,51 +182,3 @@ pytest --html=reports/report.html --self-contained-html
    - Ensure all `__init__.py` files are present
    - Verify Python path configuration
    - Check dependency installation
-
-### Debug Mode
-```bash
-# Run with verbose logging
-pytest -v -s --log-cli-level=DEBUG
-
-# Run single test with debugging
-pytest -v -s ui_tests/tests/test_admin_login.py::TestAdminLogin::test_admin_login_valid_credentials
-```
-
-## 📈 Performance Considerations
-
-- Tests include timeout configurations
-- Retry logic for flaky operations
-- Resource cleanup in teardown methods
-- Efficient screenshot capture
-
-## 🔐 Security Notes
-
-- Credentials stored in `.env` file (not committed to version control)
-- Token management with proper cleanup
-- Secure handling of authentication data
-
-## 🤝 Contributing
-
-1. Follow the existing code structure
-2. Add appropriate test coverage
-3. Update documentation
-4. Ensure all tests pass before submitting
-
-## 📄 License
-
-This project is for educational and testing purposes.
-
-## 🆘 Support
-
-For issues and questions:
-1. Check the logs in `logs/` directory
-2. Review AI debug context in `logs/ai_debug_responses.json`
-3. Ensure environment configuration is correct
-4. Verify all dependencies are installed
-
----
-
-**Framework Version**: 1.0  
-**Last Updated**: August 2025  
-**Python Version**: 3.8+  
-**Pytest Version**: 8.0+
