@@ -70,7 +70,7 @@ playwright install
 Create or verify the `.env` file with your test environment settings:
 
 ## Prompts Reference
-The file `prompts/prompts.txt` contains reusable prompts and instructions for automated test scenarios and framework usage. Refer to this file for examples and guidance on writing new test cases or customizing automation flows.
+The file `prompts.txt` contains reusable prompts and instructions for automated test scenarios and framework usage. Refer to this file for examples and guidance on writing new test cases or customizing automation flows.
 
 ```env
 # UI Testing
@@ -122,11 +122,26 @@ pytest --html=reports/report.html --self-contained-html
 
 ## Framework Features
 
+
 ### UI Automation Features
+- **MCP Integration**: Uses Playwright MCP for browser automation
+- **Fallback Behavior**: Graceful handling when MCP functions are unavailable
+- **Page Object Model**: Clean separation of test logic and page elements
+- **Screenshot Capture**: Automatic screenshots on failures and key steps
+- **State Management**: Proper login state tracking across page objects
 
 ### API Automation Features
+- **Robust HTTP Client**: Built-in retry logic and error handling
+- **Authentication Management**: Token generation and validation
+- **Response Validation**: Structured validation of API responses
+- **Data Validation**: Comprehensive request/response data validation
 
 ### Common Features
+- **Comprehensive Logging**: Structured logging with multiple output formats
+- **Configuration Management**: Environment-based configuration loading
+- **Error Handling**: Detailed error context capture for debugging
+- **AI Debug Context**: Captures context for AI-assisted debugging
+- **CI/CD Ready**: Proper exit codes and artifact generation
 
 ## Reporting and Logging
 
